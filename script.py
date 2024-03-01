@@ -72,9 +72,10 @@ while True:
             
             print("reached test")
 
-            # with open(f"/mnt/c/Users/User/OneDrive - Singapore Management University/University Subjects/Y2T2/RA/Python-SAST-Test/6.graudit/{row['cve_id']}+{repoNameShort}+{row['hash']}.txt","w+") as f:
+            with open(f"/mnt/c/Users/User/OneDrive - Singapore Management University/University Subjects/Y2T2/RA/Python-SAST-Test/6.graudit/{row['cve_id']}+{repoNameShort}+{row['hash']}.txt","w+") as f:
                 #code
-            subprocess.run(["/home/linuxbrew/.linuxbrew/bin/semgrep", "scan", "--text", "-o", f"/home/joshuasumarlin/semgrep/{row['cve_id']}+{repoNameShort}+{row['hash']}.txt"], check=True)
+                subprocess.run(["/home/joshuasumarlin/graudit/graudit", "-A", "-x", "*.js", f"/tmp/{repoNameShort}"], check=True,
+                           stdout=f)
 
             cur.execute(
             f"""

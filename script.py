@@ -41,7 +41,7 @@ while True:
     SELECT cve.cve_id, cwe_classification.cwe_id, fixes.repo_url, commits.hash, repository.repo_name, repository.repo_language
     FROM cve, fixes, cwe_classification, commits, repository
     WHERE cve.cve_id = fixes.cve_id AND commits.hash = fixes.hash AND commits.repo_url = fixes.repo_url 
-    AND cve.cve_id = cwe_classification.cve_id AND repository.repo_url = commits.repo_url and cve.problematic=0
+    AND cve.cve_id = cwe_classification.cve_id AND repository.repo_url = commits.repo_url and cve.problematic=1
      limit 1
     """)
 
@@ -53,6 +53,8 @@ while True:
         print (prevRepoName)
         repoNameShort = row['repo_url'].split("/")[-1]
         try:
+            if repoNameShort == "sentry":
+                raise Exception("Sad")
             if not os.path.isdir(f"/tmp/{repoNameShort}"):
                 print(f"did not find repo {repoNameShort}")
                 if os.path.isdir(f'/tmp/{prevRepoName}'):
@@ -91,7 +93,7 @@ while True:
             print ("========================")
             cur.execute(
             f"""
-            update cve set problematic=1 where cve_id= '{row['cve_id']}'
+            update cve set problematic=0 where cve_id= '{row['cve_id']}'
             """)
 
             con.commit()
@@ -103,7 +105,7 @@ while True:
             print ("========================")
             cur.execute(
             f"""
-            update cve set problematic=1 where cve_id= '{row['cve_id']}'
+            update cve set problematic=0 where cve_id= '{row['cve_id']}'
             """)
 
             con.commit()

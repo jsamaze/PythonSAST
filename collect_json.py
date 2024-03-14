@@ -2,7 +2,7 @@ import sqlite3
 import json
 import os
 
-JSON_OUTPUT = "./6.graudit/problem.json"
+JSON_OUTPUT = "./problem.json"
 
 
 def dict_factory(cursor, row):
